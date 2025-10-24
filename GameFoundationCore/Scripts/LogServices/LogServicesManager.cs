@@ -1,4 +1,4 @@
-﻿namespace UniTemplate.LogServices
+﻿namespace GameFoundationCore.LogServices
 {
     using UnityEngine;
 

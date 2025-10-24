@@ -1,7 +1,7 @@
-﻿namespace UniTemplate.Signals
+﻿namespace GameFoundationCore.Signals
 {
     using MessagePipe;
-    using UniTemplate.DI;
+    using GameFoundationCore.DI;
     using VContainer;
 
     public static class SignalTransmitterVcontainer

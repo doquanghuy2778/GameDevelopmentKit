@@ -1,15 +1,15 @@
-namespace UniTemplate.Scripts
+namespace GameFoundationCore.Scripts
 {
-    using UniTemplate.AssetsManager;
-    using UniTemplate.DI;
-    using UniTemplate.LogServices;
-    using UniTemplate.ScreenFlow.Manager;
-    using UniTemplate.Signals;
+    using GameFoundationCore.AssetsManager;
+    using GameFoundationCore.DI;
+    using GameFoundationCore.LogServices;
+    using GameFoundationCore.ScreenFlow.Manager;
+    using GameFoundationCore.Signals;
     using VContainer;
 
-    public static class UniTemplateVContainer
+    public static class GameFoundationCoreVContainer
     {
-        public static void RegisterUniTemplateVContainer(this IContainerBuilder builder)
+        public static void RegisterGameFoundationCoreVContainer(this IContainerBuilder builder)
         {
             builder.Register<VcontainerWrapper>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.RegisterSignalBus();
