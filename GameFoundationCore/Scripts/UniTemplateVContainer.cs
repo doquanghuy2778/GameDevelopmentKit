@@ -1,6 +1,6 @@
 namespace GameFoundationCore.Scripts
 {
-    using GameFoundationCore.AssetsManager;
+    using GameDevelopmentKit.GameFoundationCore.AssetsManager;
     using GameFoundationCore.DI;
     using GameFoundationCore.LogServices;
     using GameFoundationCore.ScreenFlow.Manager;

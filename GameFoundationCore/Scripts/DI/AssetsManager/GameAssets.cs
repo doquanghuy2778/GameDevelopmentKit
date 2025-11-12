@@ -1,4 +1,4 @@
-namespace GameFoundationCore.AssetsManager
+namespace GameDevelopmentKit.GameFoundationCore.AssetsManager
 {
     using System;
     using System.Collections.Generic;

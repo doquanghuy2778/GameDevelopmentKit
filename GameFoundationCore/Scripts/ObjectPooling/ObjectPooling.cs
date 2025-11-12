@@ -1,4 +1,4 @@
-﻿namespace GameFoundationCore.ObjectPooling
+﻿namespace GameDevelopmentKit.GameFoundationCore.ObjectPooling
 {
     using System.Collections.Generic;
     using UnityEngine;

@@ -4,7 +4,7 @@ namespace GameFoundationCore.ScreenFlow.Manager
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Cysharp.Threading.Tasks;
-    using GameFoundationCore.AssetsManager;
+    using GameDevelopmentKit.GameFoundationCore.AssetsManager;
     using GameFoundationCore.ScreenFlow.Base;
     using VContainer.Unity;
 
