@@ -1,9 +1,9 @@
-﻿namespace UniTemplate.Signals
+﻿namespace GameFoundationCore.Signals
 {
     using System;
     using System.Collections.Generic;
     using MessagePipe;
-    using UniTemplate.DI;
+    using GameFoundationCore.DI;
     using UnityEngine.Scripting;
 
     public class SignalTransmitter : ILateDisposable

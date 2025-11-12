@@ -1,4 +1,4 @@
-﻿namespace UniTemplate.ScreenFlow.Base
+﻿namespace GameFoundationCore.ScreenFlow.Base
 {
     using Cysharp.Threading.Tasks;
     using UnityEngine;

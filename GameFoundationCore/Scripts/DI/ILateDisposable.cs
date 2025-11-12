@@ -1,4 +1,4 @@
-﻿namespace UniTemplate.DI
+﻿namespace GameFoundationCore.DI
 {
     public interface ILateDisposable
     {

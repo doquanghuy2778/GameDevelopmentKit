@@ -1,4 +1,4 @@
-﻿namespace UniTemplate.DI
+﻿namespace GameFoundationCore.DI
 {
     using VContainer;
     using Object = UnityEngine.Object;
