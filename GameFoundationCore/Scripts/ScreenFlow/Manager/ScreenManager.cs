@@ -5,7 +5,7 @@ namespace GameFoundationCore.ScreenFlow.Manager
     using System.Threading.Tasks;
     using Cysharp.Threading.Tasks;
     using GameDevelopmentKit.GameFoundationCore.AssetsManager;
-    using GameFoundationCore.ScreenFlow.Base;
+    using GameFoundationCore.ScreenFlow.Base.Controller;
     using VContainer.Unity;
 
     public interface IScreenManager

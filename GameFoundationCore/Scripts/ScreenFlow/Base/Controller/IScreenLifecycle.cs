@@ -1,4 +1,4 @@
-﻿namespace GameFoundationCore.ScreenFlow.Base
+﻿namespace GameFoundationCore.ScreenFlow.Base.Controller
 {
     using Cysharp.Threading.Tasks;
     using UnityEngine;
@@ -6,7 +6,7 @@
     public interface IScreenLifecycle
     {
         public string       ScreenId { get; }
-        public ScreenStatus Status   { get; set; }
+        public ScreenStatus ScreenStatus   { get; set; }
         public void         SetViewParent(Transform parent);
         public Transform    GetViewParent();
         public UniTask      BindData();
@@ -16,7 +16,7 @@
         public void         HideView();
         public void         DestroyView();
     }
-    
+
     public interface IScreenLifecycle<in TModel> : IScreenLifecycle
     {
         public UniTask OpenView(TModel model);
