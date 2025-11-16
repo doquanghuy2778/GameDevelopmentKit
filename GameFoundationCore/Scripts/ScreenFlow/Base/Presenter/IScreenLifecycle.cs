@@ -1,12 +1,13 @@
-﻿namespace GameFoundationCore.ScreenFlow.Base
+﻿namespace GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Base.Presenter
 {
     using Cysharp.Threading.Tasks;
+    using GameDevelopmentKit.GameFoundationCore.Scripts.MVP;
     using UnityEngine;
 
-    public interface IScreenLifecycle
+    public interface IScreenLifecycle : IUIPresenter
     {
         public string       ScreenId { get; }
-        public ScreenStatus Status   { get; set; }
+        public ScreenStatus ScreenStatus   { get; set; }
         public void         SetViewParent(Transform parent);
         public Transform    GetViewParent();
         public UniTask      BindData();
@@ -16,7 +17,7 @@
         public void         HideView();
         public void         DestroyView();
     }
-    
+
     public interface IScreenLifecycle<in TModel> : IScreenLifecycle
     {
         public UniTask OpenView(TModel model);
