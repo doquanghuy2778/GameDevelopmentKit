@@ -7,7 +7,7 @@
     using global::GameFoundationCore.Signals;
     using UnityEngine;
 
-    public class BaseScreenPresenter<TView> : IScreenLifecycle where TView : IScreenView
+    public class BaseScreenPresenter<TView> : IScreenPresenter where TView : IScreenView
     {
 
         #region Inject
@@ -42,7 +42,7 @@
         {
             if(parent == null)
             {
-                this.logServices.LogWithColor($"parent {parent.name} is null", Color.red);
+                this.logServices.LogWithColor($"parent is null", Color.red);
                 return;
             }
             if (this.View.Equals(null)) return;
@@ -104,7 +104,7 @@
 
         }
 
-        protected virtual void Dispose()
+        public virtual void Dispose()
         {
 
         }

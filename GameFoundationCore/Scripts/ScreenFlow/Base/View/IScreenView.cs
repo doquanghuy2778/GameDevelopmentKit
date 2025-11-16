@@ -2,9 +2,10 @@
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using GameDevelopmentKit.GameFoundationCore.Scripts.MVP;
     using UnityEngine;
 
-    public interface IScreenView
+    public interface IScreenView : IUIView
     {
         public RectTransform RectTransform { get; }
         public bool          IsReadyToUse  { get; }

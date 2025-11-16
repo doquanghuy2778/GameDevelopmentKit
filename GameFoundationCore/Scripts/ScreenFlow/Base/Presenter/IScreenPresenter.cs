@@ -1,10 +1,11 @@
 ﻿namespace GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Base.Presenter
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using GameDevelopmentKit.GameFoundationCore.Scripts.MVP;
     using UnityEngine;
 
-    public interface IScreenLifecycle : IUIPresenter
+    public interface IScreenPresenter : IUIPresenter, IDisposable
     {
         public string       ScreenId { get; }
         public ScreenStatus ScreenStatus   { get; set; }
@@ -18,7 +19,7 @@
         public void         DestroyView();
     }
 
-    public interface IScreenLifecycle<in TModel> : IScreenLifecycle
+    public interface IScreenPresenter<in TModel> : IScreenPresenter
     {
         public UniTask OpenView(TModel model);
     }
