@@ -1,12 +1,14 @@
-﻿namespace GameFoundationCore.ScreenFlow.Base.Controller
+﻿namespace GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Base.Presenter
 {
     using Cysharp.Threading.Tasks;
-    using GameFoundationCore.LogServices;
-    using GameFoundationCore.Scripts.ScreenFlow.Base.View;
-    using GameFoundationCore.Signals;
+    using GameDevelopmentKit.GameFoundationCore.Scripts.MVP;
+    using global::GameFoundationCore.LogServices;
+    using global::GameFoundationCore.Scripts.ScreenFlow;
+    using global::GameFoundationCore.Scripts.ScreenFlow.Base.View;
+    using global::GameFoundationCore.Signals;
     using UnityEngine;
 
-    public class BaseScreenController<TView> : IScreenLifecycle where TView : IScreenView
+    public class BaseScreenPresenter<TView> : IScreenLifecycle where TView : IScreenView
     {
 
         #region Inject
@@ -14,7 +16,7 @@
         protected SignalTransmitter signalTransmitter;
         protected ILogServices      logServices;
 
-        protected BaseScreenController(
+        protected BaseScreenPresenter(
             SignalTransmitter signalTransmitter,
             ILogServices      logServices
         )
@@ -28,6 +30,14 @@
         public TView        View     { get; private set; }
         public string       ScreenId { get; private set; }
         public ScreenStatus ScreenStatus   { get; set; } = ScreenStatus.Closed;
+        
+        public void SetView(IUIView viewInstance)
+        {
+            this.View     = (TView)viewInstance;
+            this.ScreenId = ScreenHelper.GetScreenId<TView>();
+            if (!this.View.IsReadyToUse) UniTask.WaitUntil(this, state => state.View.IsReadyToUse).Forget();
+            this.OnViewReady();
+        }
 
         public void SetViewParent(Transform parent)
         {

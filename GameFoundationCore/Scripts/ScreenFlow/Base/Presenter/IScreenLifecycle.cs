@@ -1,9 +1,10 @@
-﻿namespace GameFoundationCore.ScreenFlow.Base.Controller
+﻿namespace GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Base.Presenter
 {
     using Cysharp.Threading.Tasks;
+    using GameDevelopmentKit.GameFoundationCore.Scripts.MVP;
     using UnityEngine;
 
-    public interface IScreenLifecycle
+    public interface IScreenLifecycle : IUIPresenter
     {
         public string       ScreenId { get; }
         public ScreenStatus ScreenStatus   { get; set; }
