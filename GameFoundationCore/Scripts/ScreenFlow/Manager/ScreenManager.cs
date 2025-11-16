@@ -122,7 +122,13 @@ namespace GameFoundationCore.ScreenFlow.Manager
 
         public void CloseAllScreen()
         {
-            throw new System.NotImplementedException();
+            var cacheActiveScreens = this.activeScreens.ToList();
+            this.activeScreens.Clear();
+
+            foreach (var screen in cacheActiveScreens) screen.CloseViewAsync().Forget();
+
+            this.CurrentActiveScreen.Value = null;
+            this.previousActiveScreen      = null;
         }
 
         #endregion
