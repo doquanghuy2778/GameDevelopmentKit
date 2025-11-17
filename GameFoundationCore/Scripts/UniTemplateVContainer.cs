@@ -2,6 +2,7 @@ namespace GameFoundationCore.Scripts
 {
     using GameDevelopmentKit.GameFoundationCore.AssetsManager;
     using GameDevelopmentKit.GameFoundationCore.ObjectPooling;
+    using GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Signals;
     using GameFoundationCore.DI;
     using GameFoundationCore.LogServices;
     using GameFoundationCore.ScreenFlow.Manager;
@@ -18,6 +19,8 @@ namespace GameFoundationCore.Scripts
             builder.Register<ObjectPoolingManager>(Lifetime.Singleton);
             builder.Register<ScreenManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<LogServicesManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+
+            builder.DeclareSignal<InitScreenManualSignal>();
         }
     }
 }
