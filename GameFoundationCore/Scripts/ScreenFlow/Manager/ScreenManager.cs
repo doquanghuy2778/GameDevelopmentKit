@@ -8,9 +8,12 @@ namespace GameFoundationCore.ScreenFlow.Manager
     using GameDevelopmentKit.GameFoundationCore.AssetsManager;
     using GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Base.Presenter;
     using GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Manager;
+    using GameDevelopmentKit.GameFoundationCore.Scripts.ScreenFlow.Signals;
     using GameFoundationCore.DI;
+    using GameFoundationCore.LogServices;
     using GameFoundationCore.Scripts.Extension;
     using GameFoundationCore.Scripts.ScreenFlow.Base.View;
+    using GameFoundationCore.Signals;
     using R3;
     using UnityEngine;
     using VContainer.Unity;
@@ -44,11 +47,19 @@ namespace GameFoundationCore.ScreenFlow.Manager
     {
         #region Constructor
 
-        private readonly IGameAssets gameAssets;
+        private readonly IGameAssets       gameAssets;
+        private readonly SignalTransmitter signalTransmitter;
+        private readonly ILogServices      logger;
 
-        private ScreenManager(IGameAssets gameAssets)
+        private ScreenManager(IGameAssets gameAssets,
+            SignalTransmitter signalTransmitter,
+            ILogServices      logger)
         {
-            this.gameAssets = gameAssets;
+            this.gameAssets        = gameAssets;
+            this.signalTransmitter = signalTransmitter;
+            this.logger            = logger;
+
+            this.signalTransmitter.Subscribe<InitScreenManualSignal>(this.OnManualInitScreen);
         }
 
         #endregion
@@ -56,7 +67,7 @@ namespace GameFoundationCore.ScreenFlow.Manager
         private readonly List<IScreenPresenter>                   activeScreens               = new();
         private readonly Dictionary<Type, IScreenPresenter>       typeToLoadedScreenPresenter = new();
         private readonly Dictionary<Type, Task<IScreenPresenter>> typeToPendingScreen         = new();
-        
+
         public  ReactiveProperty<IScreenPresenter> CurrentActiveScreen { get; } = new();
         private RootUICanvas                       rootUICanvas;
 
@@ -132,22 +143,26 @@ namespace GameFoundationCore.ScreenFlow.Manager
         }
 
         #endregion
-        
+
         public void Tick()
         {
-            throw new NotImplementedException();
+            if (this.activeScreens.Count > 1)
+            {
+                Debug.Log("Close last screen");
+                this.activeScreens.Last().CloseViewAsync();
+            }
         }
 
         public void Initialize()
         {
-            throw new NotImplementedException();
+            Debug.Log("Initialize Screen Manager");
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Debug.Log("Dispose Screen Manager");
         }
-        
+
         public async UniTask<T> GetScreen<T>() where T : IScreenPresenter
         {
             var screenType = typeof(T);
@@ -184,7 +199,27 @@ namespace GameFoundationCore.ScreenFlow.Manager
                 return screenPresenter;
             }
         }
-        
+
+        private void OnManualInitScreen(InitScreenManualSignal signal)
+        {
+            var screenPresenter = signal.ScreenPresenter;
+            var screenType      = screenPresenter.GetType();
+
+            if (!this.typeToLoadedScreenPresenter.TryAdd(screenType, screenPresenter)) return;
+            var screenInfo = screenPresenter.GetCustomAttribute<ScreenInfoAttribute>();
+
+            var viewObj = this.CurrentRootScreen.Find(screenInfo.AddressableScreenPath);
+
+            if (viewObj != null)
+            {
+                screenPresenter.SetView(viewObj.GetComponent<IScreenView>());
+            }
+            else
+            {
+                this.logger.LogError($"The {screenInfo.AddressableScreenPath} object may be not instantiated in the RootUICanvas!!!");
+            }
+        }
+
         #region Check Overlay Popup
 
         private bool CheckScreenIsPopup(IScreenPresenter screenPresenter)

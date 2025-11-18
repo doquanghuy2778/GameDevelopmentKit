@@ -8,7 +8,9 @@
     [RequireComponent(typeof(CanvasGroup))]
     public class BaseView : MonoBehaviour, IScreenView
     {
-        public CanvasGroup ViewRoot { get => this.ViewRoot; set => this.ViewRoot = value; }
+        [SerializeField] private CanvasGroup viewRoot;
+
+        protected virtual CanvasGroup        ViewRoot         { get => this.viewRoot; set => this.viewRoot = value; }
 
         public RectTransform RectTransform { get; private set; }
         public bool          IsReadyToUse  { get; private set; }
@@ -32,7 +34,7 @@
         {
             this.StartUnityEvent();
         }
-        
+
         private void OnDestroy()
         {
             this.OnDestroyUnityEvent();
@@ -45,11 +47,11 @@
         {
             this.UpdateAlpha(1f);
             Debug.Log($"open screen view {this.name}");
-            this.ViewDidOpen?.Invoke();    
+            this.ViewDidOpen?.Invoke();
             return UniTask.CompletedTask;
         }
-        
-        public UniTask Close()       
+
+        public UniTask Close()
         {
             Debug.Log($"Close screen view {this.name}");
             this.UpdateAlpha(0);
@@ -73,7 +75,7 @@
         }
 
         #endregion
-        
+
         #region Unity3D Messages propagation
 
         protected virtual void AwakeUnityEvent()
@@ -87,9 +89,9 @@
         protected virtual void OnDestroyUnityEvent()
         {
         }
-        
+
         #endregion
-        
+
         protected void UpdateAlpha(float value)
         {
             this.ViewRoot.alpha          = value;
