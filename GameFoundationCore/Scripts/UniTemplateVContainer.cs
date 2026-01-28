@@ -13,7 +13,9 @@ namespace GameFoundationCore.Scripts
     {
         public static void RegisterGameFoundationCoreVContainer(this IContainerBuilder builder)
         {
-            builder.Register<VcontainerWrapper>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<VcontainerWrapper>(Lifetime.Scoped).AsImplementedInterfaces();
+            builder.Register<VContainerAdapter>(Lifetime.Scoped).AsImplementedInterfaces();
+
             builder.RegisterSignalBus();
             builder.Register<GameAssets>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<ObjectPoolingManager>(Lifetime.Singleton);

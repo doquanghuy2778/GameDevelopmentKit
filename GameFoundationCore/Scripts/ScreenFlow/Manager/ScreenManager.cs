@@ -17,6 +17,8 @@ namespace GameFoundationCore.ScreenFlow.Manager
     using R3;
     using UnityEngine;
     using VContainer.Unity;
+    using IInitializable = GameFoundationCore.DI.IInitializable;
+    using ITickable = GameFoundationCore.DI.ITickable;
     using Object = UnityEngine.Object;
 
     public interface IScreenManager
