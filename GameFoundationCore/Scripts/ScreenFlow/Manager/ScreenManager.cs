@@ -23,7 +23,20 @@ namespace GameFoundationCore.ScreenFlow.Manager
 
     public interface IScreenManager
     {
+        /// <summary>
+        /// Open Screen
+        /// </summary>
+        /// <typeparam name="TPresenter"></typeparam>
+        /// <returns></returns>
         public UniTask<TPresenter> OpenScreen<TPresenter>() where TPresenter : IScreenPresenter;
+
+        /// <summary>
+        /// Open Screen with model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <typeparam name="TPresenter"></typeparam>
+        /// <typeparam name="TModel"></typeparam>
+        /// <returns></returns>
         public UniTask<TPresenter> OpenScreen<TPresenter, TModel>(TModel model) where TPresenter : IScreenPresenter<TModel>;
 
         /// <summary>
@@ -42,6 +55,13 @@ namespace GameFoundationCore.ScreenFlow.Manager
         /// Close all screen in queue
         /// </summary>
         public void CloseAllScreen();
+
+        /// <summary>
+        /// Close current screen with name
+        /// </summary>
+        /// <typeparam name="TPresenter"></typeparam>
+        /// <returns></returns>
+        public UniTask<TPresenter> CloseCurrentScreenWithName<TPresenter>() where TPresenter : IScreenPresenter;
 
     }
 
@@ -219,6 +239,22 @@ namespace GameFoundationCore.ScreenFlow.Manager
             else
             {
                 this.logger.LogError($"The {screenInfo.AddressableScreenPath} object may be not instantiated in the RootUICanvas!!!");
+            }
+        }
+
+        public async UniTask<TPresenter> CloseCurrentScreenWithName<TPresenter>() where TPresenter : IScreenPresenter
+        {
+            var screenClose = await this.GetScreen<TPresenter>();
+
+            if (screenClose != null && this.activeScreens.Contains(screenClose))
+            {
+                await screenClose.CloseViewAsync();
+                return screenClose;
+            }
+            else
+            {
+                this.logger.LogError($"The {typeof(TPresenter).Name} screen does not exist");
+                return default;
             }
         }
 
