@@ -1,4 +1,5 @@
-﻿using ILogServices = GameFoundationCore.LogServices.ILogServices;
+﻿using BlueprintReaderManager = GameFoundationCore.Scripts.BluePrintFlow.BluePrintControlFlow.BlueprintReaderManager;
+using ILogServices = GameFoundationCore.LogServices.ILogServices;
 using SignalTransmitter = GameFoundationCore.Signals.SignalTransmitter;
 
 namespace GameDevelopmentKit.GameFoundationCore.Scene
@@ -46,15 +47,18 @@ namespace GameDevelopmentKit.GameFoundationCore.Scene
     [ScreenInfo(nameof(TemplateLoadingScreenView))]
     public class TemplateLoadingScreenPresenter : BaseScreenPresenter<TemplateLoadingScreenView>
     {
-        private readonly IGameAssets gameAssets;
+        private readonly IGameAssets            gameAssets;
+        private readonly BlueprintReaderManager blueprintReaderManager;
 
         protected TemplateLoadingScreenPresenter(
             SignalTransmitter signalTransmitter,
             ILogServices      logServices,
-            IGameAssets       gameAssets
+            IGameAssets       gameAssets,
+            BlueprintReaderManager blueprintReaderManager
         ) : base(signalTransmitter, logServices)
         {
-            this.gameAssets = gameAssets;
+            this.gameAssets             = gameAssets;
+            this.blueprintReaderManager = blueprintReaderManager;
         }
 
         private float loadingProgress;
@@ -86,7 +90,9 @@ namespace GameDevelopmentKit.GameFoundationCore.Scene
         {
             this.LoadingProgress = 0;
             this.loadingSteps    = 1;
-            UniTask.WhenAll(this.Preload()).ContinueWith(this.LoadNextScene).Forget();
+            UniTask.WhenAll(
+                this.Preload(),
+                this.LoadBlueprint()).ContinueWith(this.LoadNextScene).Forget();
             return UniTask.CompletedTask;
         }
 
@@ -124,6 +130,11 @@ namespace GameDevelopmentKit.GameFoundationCore.Scene
                     UpdateProgress(1f);
                     return result;
                 });
+        }
+
+        private UniTask LoadBlueprint()
+        {
+            return this.blueprintReaderManager.LoadBlueprint();
         }
     }
 }
