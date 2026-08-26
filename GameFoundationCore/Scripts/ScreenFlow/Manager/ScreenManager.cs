@@ -260,13 +260,14 @@ namespace GameFoundationCore.ScreenFlow.Manager
 
         private bool CheckScreenIsPopup(IScreenPresenter screenPresenter)
         {
-            return screenPresenter.GetType().IsSubclassOfRawGeneric(typeof(BaseScreenPresenter<>));
+            return screenPresenter.GetType().IsSubclassOfRawGeneric(typeof(BasePopupPresenter<>));
         }
 
         private bool CheckPopupIsOverlay(IScreenPresenter screenPresenter)
         {
             return this.CheckScreenIsPopup(screenPresenter) && screenPresenter.GetCustomAttribute<PopupInfoAttribute>().IsOverlay;
         }
+
 
         #endregion
     }
