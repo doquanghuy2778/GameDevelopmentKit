@@ -48,17 +48,14 @@ namespace GameDevelopmentKit.GameFoundationCore.Scene
     public class TemplateLoadingScreenPresenter : BaseScreenPresenter<TemplateLoadingScreenView>
     {
         private readonly IGameAssets            gameAssets;
-        private readonly BlueprintReaderManager blueprintReaderManager;
 
         protected TemplateLoadingScreenPresenter(
             SignalTransmitter signalTransmitter,
             ILogServices      logServices,
-            IGameAssets       gameAssets,
-            BlueprintReaderManager blueprintReaderManager
+            IGameAssets       gameAssets
         ) : base(signalTransmitter, logServices)
         {
             this.gameAssets             = gameAssets;
-            this.blueprintReaderManager = blueprintReaderManager;
         }
 
         private float loadingProgress;
@@ -91,8 +88,7 @@ namespace GameDevelopmentKit.GameFoundationCore.Scene
             this.LoadingProgress = 0;
             this.loadingSteps    = 1;
             UniTask.WhenAll(
-                this.Preload(),
-                this.LoadBlueprint()).ContinueWith(this.LoadNextScene).Forget();
+                this.Preload()).ContinueWith(this.LoadNextScene).Forget();
             return UniTask.CompletedTask;
         }
 
@@ -132,9 +128,9 @@ namespace GameDevelopmentKit.GameFoundationCore.Scene
                 });
         }
 
-        private UniTask LoadBlueprint()
-        {
-            return this.blueprintReaderManager.LoadBlueprint();
-        }
+        // private UniTask LoadBlueprint()
+        // {
+        //     return this.blueprintReaderManager.LoadBlueprint();
+        // }
     }
 }
